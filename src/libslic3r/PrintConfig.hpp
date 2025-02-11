@@ -77,7 +77,7 @@ enum class ArcFittingType {
 
 enum GCodeFlavor : unsigned char {
     gcfRepRapSprinter, gcfRepRapFirmware, gcfRepetier, gcfTeacup, gcfMakerWare, gcfMarlinLegacy, gcfMarlinFirmware, gcfKlipper, gcfSailfish, gcfMach3, gcfMachinekit,
-    gcfSmoothie, gcfNoExtrusion,
+    gcfSmoothie, gcfNoExtrusion, gcfAerotech,
 };
 
 enum class MachineLimitsUsage {
@@ -893,7 +893,9 @@ static inline std::string get_extrusion_axis(const GCodeConfig &cfg)
 {
     return
         ((cfg.gcode_flavor.value == gcfMach3) || (cfg.gcode_flavor.value == gcfMachinekit)) ? "A" :
-        (cfg.gcode_flavor.value == gcfNoExtrusion) ? "" : cfg.extrusion_axis.value;
+        ((cfg.gcode_flavor.value == gcfNoExtrusion) || (cfg.gcode_flavor.value == gcfAerotech)) ? "" : 
+        cfg.extrusion_axis.value;
+        
 }
 
 PRINT_CONFIG_CLASS_DERIVED_DEFINE(

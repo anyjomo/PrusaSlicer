@@ -69,7 +69,18 @@ void GCodeWriter::set_extruders(std::vector<unsigned int> extruder_ids)
 std::string GCodeWriter::preamble()
 {
     std::ostringstream gcode;
-    
+    if (FLAVOR_IS(gcfAerotech)) {
+        gcode << "M65 // close Shutter\n"
+              << "G71 // Metric units (millimeters)\n"
+              << "G76 // Time in seconds\n"
+              << "G94 // Units per second mode\n"
+              << "G90 // Absolute coordinates\n"
+              << "G69 // operate with the S-curve acceleration and deceleration ramping type for coordinated motion\n" 
+              << "G109 // Disable velocity blending\n";
+              << "G16 X Y Z // Set axes X Y Z\n";
+              << "G17 // Select XY plane for circular interpolation\n";
+    return gcode.str();
+    }
     if (FLAVOR_IS_NOT(gcfMakerWare)) {
         gcode << "G21 ; set units to millimeters\n";
         gcode << "G90 ; use absolute coordinates\n";
@@ -97,6 +108,12 @@ std::string GCodeWriter::preamble()
 std::string GCodeWriter::postamble() const
 {
     std::ostringstream gcode;
+    if (FLAVOR_IS(gcfAerotech)) {
+        gcode << "M65 // close Shutter\n";
+              << "G1 Z15.000000 F1000.000000 // Safe Z height\n";
+              << "M2 // Program end\n";
+    return gcode.str();
+    }
     if (FLAVOR_IS(gcfMachinekit))
           gcode << "M2 ; end of program\n";
     return gcode.str();
@@ -104,7 +121,7 @@ std::string GCodeWriter::postamble() const
 
 std::string GCodeWriter::set_temperature(unsigned int temperature, bool wait, int tool) const
 {
-    if (wait && (FLAVOR_IS(gcfMakerWare) || FLAVOR_IS(gcfSailfish)))
+    if (wait && (FLAVOR_IS(gcfMakerWare) || FLAVOR_IS(gcfSailfish) || FLAVOR_IS(gcfAerotech)))
         return {};
     
     std::string_view code, comment;
@@ -537,7 +554,13 @@ void GCodeWriter::update_position(const Vec3d &new_pos)
 
 std::string GCodeWriter::set_fan(const GCodeFlavor gcode_flavor, bool gcode_comments, unsigned int speed)
 {
+  
+    // no fan control needed for Aerotech
+    if (gcode_flavor == gcfAerotech)
+        return {};
+    
     std::ostringstream gcode;
+
     if (speed == 0) {
         switch (gcode_flavor) {
         case gcfTeacup:

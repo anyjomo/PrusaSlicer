@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" class="_Skins__GLO_Side_Nav_browser" data-mc-search-type="Stem" data-mc-help-system-file-name="Automation1.xml" data-mc-path-to-help-system="../../" data-mc-has-content-body="True" data-mc-toc-path="Using Automation1|AeroScript Programming Language|AeroScript Programming Language Reference" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic;Default" data-mc-preload-images="false" data-mc-in-preview-mode="false">
+    
+<!-- Mirrored from help.aerotech.com/automation1/Content/Guide-AeroScript-Programming-Language-Reference/Appendix-B-Axis-Naming-Conventions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 28 Aug 2024 09:49:06 GMT -->
+<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="Expires" content="0" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Cache-Control" content="no-cache" />
+        <meta name="header-title" content="The Future in Motion Control Technology" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="msapplication-config" content="https://help.aerotech.com/automation1/Skins/Favicons/browserconfig.xml" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../../Skins/Favicons/apple-touch-icon.png" />
+        <link rel="shortcut icon" href="../../Skins/Favicons/favicon-32x32.png" />
+        <link rel="icon" sizes="96x96" href="../../Skins/Favicons/favicon-96x96.png" />
+        <link rel="icon" sizes="32x32" href="../../Skins/Favicons/favicon-32x32.png" />
+        <link rel="icon" sizes="16x16" href="../../Skins/Favicons/favicon-16x16.png" /><title>Axis Naming Conventions</title>
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Tablet.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Mobile.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Fluid/Stylesheets/foundation.6.2.3.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Fluid/Stylesheets/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Fluid/Stylesheets/Tablet.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Fluid/Stylesheets/Mobile.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Fluid/Stylesheets/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../Resources/TableStyles/_GLO-MasterPage-Footer.css" rel="stylesheet" data-mc-stylesheet-type="table" />
+        <link href="../Resources/Stylesheets/_GLO-Technical-Documentation-Styles.css" rel="stylesheet" type="text/css" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.remove-highlight-button
+{
+	-pie-background: linear-gradient(#0082BE, #0082BE);
+}
+
+.button.expand-all-button
+{
+	-pie-background: linear-gradient(#0082BE, #0082BE);
+}
+
+.button.print-button
+{
+	-pie-background: linear-gradient(#0082BE, #0082BE);
+}
+
+.button.collapse-all-button
+{
+	-pie-background: linear-gradient(#0082BE, #0082BE);
+}
+
+.needs-pie
+{
+	behavior: url('https://help.aerotech.com/automation1/Resources/Scripts/PIE-no-motw.htc');
+}
+
+</style>
+        <link href="../Resources/TableStyles/_GLO-Lines.css" rel="stylesheet" data-mc-stylesheet-type="table" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../../Skins/Favicons/apple-touch-icon.png" />
+        <link rel="shortcut icon" href="../../Skins/Favicons/favicon-32x32.png" />
+        <link rel="icon" sizes="96x96" href="../../Skins/Favicons/favicon-96x96.png" />
+        <link rel="icon" sizes="32x32" href="../../Skins/Favicons/favicon-32x32.png" />
+        <link rel="icon" sizes="16x16" href="../../Skins/Favicons/favicon-16x16.png" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.6.2.3_custom.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+        <script type="text/javascript" src="../../Skins/Default/Scripts/Topic-Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <div class="foundation-wrap off-canvas-wrapper">
+            <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper="">
+                <aside class="off-canvas position-right" role="navigation" id="offCanvas" data-off-canvas="" data-position="right" data-mc-ignore="true">
+                    <ul class="off-canvas-drilldown vertical menu off-canvas-list" data-drilldown="" data-mc-back-link="Back" data-mc-css-tree-node-expanded="is-drilldown-submenu-parent" data-mc-css-tree-node-collapsed="is-drilldown-submenu-parent" data-mc-css-sub-menu="vertical menu slide-in-right is-drilldown-submenu" data-mc-include-indicator="False" data-mc-include-icon="False" data-mc-include-parent-link="True" data-mc-include-back="True" data-mc-defer-expand-event="True" data-mc-expand-event="click.zf.drilldown" data-mc-toc="True">
+                    </ul>
+                </aside>
+                <div class="off-canvas-content inner-wrap" data-off-canvas-content="">
+                    <div data-sticky-container="" class="title-bar-container">
+                        <nav class="title-bar tab-bar sticky" role="banner" data-sticky="" data-options="marginTop:0" style="width:100%" data-sticky-on="only screen and (max-width: 1279px)" data-mc-ignore="true"><a class="skip-to-content fluid-skip showOnFocus" href="#">Skip To Main Content</a>
+                            <div class="middle title-bar-section outer-row clearfix">
+                                <div class="menu-icon-container relative clearfix">
+                                    <div class="central-account-wrapper">
+                                        <div class="central-dropdown"><a class="central-account-drop"><span class="central-account-image"></span><span class="central-account-text">Account</span></a>
+                                            <div class="central-dropdown-content"><a class="MCCentralLink central-dropdown-content-settings">Settings</a>
+                                                <hr class="central-separator" /><a class="MCCentralLink central-dropdown-content-logout">Logout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="menu-icon" aria-label="Show Navigation Panel" data-toggle="offCanvas"><span></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="title-bar-layout outer-row">
+                                <div class="logo-wrapper"><a class="logo" href="../Home-Landing-Page.html" alt="Logo"></a>
+                                </div>
+                                <div class="navigation-wrapper nocontent">
+                                    <ul class="navigation clearfix" role="navigation" data-mc-css-tree-node-has-children="has-children" data-mc-css-sub-menu="sub-menu" data-mc-expand-event="mouseenter" data-mc-top-nav-menu="True" data-mc-max-depth="3" data-mc-include-icon="False" data-mc-include-indicator="False" data-mc-include-children="True" data-mc-include-siblings="True" data-mc-include-parent="True" data-mc-toc="True">
+                                        <li class="placeholder" style="visibility:hidden"><a>placeholder</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="central-account-wrapper">
+                                    <div class="central-dropdown"><a class="central-account-drop"><span class="central-account-image"></span><span class="central-account-text">Account</span></a>
+                                        <div class="central-dropdown-content"><a class="MCCentralLink central-dropdown-content-settings">Settings</a>
+                                            <hr class="central-separator" /><a class="MCCentralLink central-dropdown-content-logout">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nav-search-wrapper">
+                                    <div class="nav-search row">
+                                        <form class="search" action="#">
+                                            <div class="search-bar search-bar-container needs-pie">
+                                                <input class="search-field needs-pie" type="search" aria-label="Search Field" placeholder="Search" />
+                                                <div class="search-filter-wrapper"><span class="invisible-label" id="search-filters-label">Filter: </span>
+                                                    <div class="search-filter" aria-haspopup="true" aria-controls="sf-content" aria-expanded="false" aria-label="Search Filter" title="All Files" role="button" tabindex="0">
+                                                    </div>
+                                                    <div class="search-filter-content" id="sf-content">
+                                                        <ul>
+                                                            <li>
+                                                                <button class="mc-dropdown-item" aria-labelledby="search-filters-label filterSelectorLabel-00001"><span id="filterSelectorLabel-00001">All Files</span>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="search-submit-wrapper" dir="ltr">
+                                                    <div class="search-submit" title="Search" role="button" tabindex="0"><span class="invisible-label">Submit Search</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="main-section">
+                        <div class="row outer-row sidenav-layout">
+                            <nav class="sidenav-wrapper">
+                                <div class="sidenav-container">
+                                    <ul class="off-canvas-accordion vertical menu sidenav" data-accordion-menu="" data-mc-css-tree-node-expanded="is-accordion-submenu-parent" data-mc-css-tree-node-collapsed="is-accordion-submenu-parent" data-mc-css-sub-menu="vertical menu accordion-menu is-accordion-submenu nested" data-mc-include-indicator="False" data-mc-include-icon="False" data-mc-include-parent-link="False" data-mc-include-back="False" data-mc-defer-expand-event="True" data-mc-expand-event="click.zf.accordionMenu" data-mc-toc="True" data-mc-side-nav-menu="True">
+                                    </ul>
+                                </div>
+                            </nav>
+                            <div class="body-container">
+                                <div data-mc-content-body="True"><a class="go-to-top" href="#" style="display: none;" data-mc-conditions="_GLO-Output.OnlineHelpOnly">
+			Top
+		</a>
+                                    <div class="nocontent">
+                                        <div class="MCBreadcrumbsBox_breadcrumbs_0 breadcrumbs" role="navigation" aria-label="Breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+                                        </div>
+                                    </div>
+                                    <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxybold _Skins_Topic_Toolbar mc-component nocontent" style="mc-topic-toolbar-items: RemoveHighlight PreviousTopic NextTopic Home ExpandAll;">
+                                        <div class="button-group-container-left">
+                                            <button class="button needs-pie remove-highlight-button" title="Remove all highlights. Recommended before printing. ">
+                                                <div>
+                                                    <div role="img" class="button-icon-wrapper" aria-label="Remove all highlights. Recommended before printing. ">
+                                                        <div class="button-icon"> </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <button class="button needs-pie expand-all-button" data-state1-class="expand-all-button" data-state2-class="collapse-all-button" data-state2-title="Collapse all expanded sections." title="Expand all collapsed sections. Recommended before printing." data-state1-title="Expand all collapsed sections. Recommended before printing.">
+                                                <div>
+                                                    <div role="img" class="button-icon-wrapper" aria-label="Expand all collapsed sections. Recommended before printing.">
+                                                        <div class="button-icon"> </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <button class="button needs-pie print-button" title="Print page. Before you print,  use the other buttons to remove highlighting or expand all.">
+                                                <div>
+                                                    <div role="img" class="button-icon-wrapper" aria-label="Print page. Before you print,  use the other buttons to remove highlighting or expand all.">
+                                                        <div class="button-icon"> </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div role="main" id="mc-main-content">
+                                        <h1 class="Heading1">Axis Naming Conventions</h1>
+                                        <p>Axis names may be any of the following single-character names:</p>
+                                        <table style="border-collapse: collapse;margin-left: 0;margin-right: auto;mc-table-style: url('../Resources/TableStyles/_GLO-Lines.css');" class="TableStyle-_GLO-Lines" cellspacing="0">
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <col style="width: 23pt;" class="TableStyle-_GLO-Lines-Column-Column1" />
+                                            <tr class="TableStyle-_GLO-Lines-Body-Body1">
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">A</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">a</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">B</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">b</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">C</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">c</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">D</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">d</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">U</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">u</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">V</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">v</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">W</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">w</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">X</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">x</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">Y</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">y</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyE-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">Z</p>
+                                                </td>
+                                                <td class="TableStyle-_GLO-Lines-BodyD-Column1-Body1">
+                                                    <p style="orphans: 2;widows: 2;border-top-style: none;border-left-style: none;border-bottom-style: none;border-right-style: none;margin-bottom: 0pt;text-align: center;font-family: Consolas;">z</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p>All other single-character names are reserved for either G-code programming or for future use, including E/e, F/f, G/g, H/h, I/i, J/j, K/k, L/l, M/m, N/n, O/o, P/p, Q/q, R/r, S/s, and T/t. In addition to the valid single-character names listed above, most names that match the following regular expression are valid axis names.</p>
+                                        <div class="ProgramExample">[<span class="axis-names">A</span>-<span class="identifier">Za</span>-<span class="identifier">z_</span>][<span class="axis-names">A</span>-<span class="identifier">Za</span>-<span class="identifier">z0</span>-<span class="numbers">9</span><span class="identifier">_</span>]+</div>
+                                        <p>The above regular expression means that an axis name must follow the following rules:</p>
+                                        <ul>
+                                            <li>
+                                                <p>It must start with a letter or underscore.</p>
+                                            </li>
+                                            <li>
+                                                <p>After the first letter/underscore, it must be followed by one or more letters, numbers, or underscores.</p>
+                                            </li>
+                                        </ul>
+                                        <p>In addition to the valid axis names outlined above, there are some further restrictions. Axis names may not match any of the <a href="Appendix-A-Reserved-Keywords.html" class="MCXref xref">Reserved Keywords</a> of the language. No two axes on the controller can be named the same. In addition, if the name of an axis contains a number, there may not be another axis in the system whose name is a substring of that name. See the following example for the reasoning.</p>
+                                        <div class="ProgramExample"><span class="comments">// Consider if axes X and X2 exist in the system</span><span class="comments"><br />// The following line is ambiguous (could be interpreted as X(250) or</span><span class="comments"><br />// as X2(50))<br /></span><span class="g-codes">G1X250</span>
+                                        </div>
+                                        <p>Axis names may still contain a number as long as the substring restriction mentioned previously is followed. For example, the controller may consist of axes named <span class="pre">X1</span> and <span class="pre">X2</span> as long as no axis with the name <span class="pre">X</span> exists on that controller.</p>
+                                        <p>An axis name cannot end with the character <span class="pre">F</span> or <span class="pre">f</span> if there are any other axes on the controller whose name is the same without the ending <span class="pre">F</span> or <span class="pre">f</span> character. For example, if an axis on the controller is named <span class="pre">MyAxis</span>, then another axis cannot be named <span class="pre">MyAxisF</span>.</p>
+                                        <p>Axis names are case-sensitive, meaning that the names “<span class="pre">X</span>” and “<span class="pre">x</span>” refer to different axes.</p>
+                                    </div>
+                                    <script src="../Resources/Scripts/back-to-top.js">
+                                    </script>
+                                    <script defer="defer" async="async" src="../Resources/Scripts/scroll-to-highlight.js">
+                                    </script>
+                                    <div class="footerTable" data-mc-conditions="_GLO-Output.DesktopOnly,_GLO-Output.TabletOnly,_GLO-Output.OnlineHelpOnly">
+                                        <table style="width: 100%;border-left-style: none;border-left-width: 1px;border-right-style: none;border-right-width: 1px;border-top-style: none;border-top-width: 1px;border-bottom-style: none;border-bottom-width: 1px;mc-table-style: url('../Resources/TableStyles/_GLO-MasterPage-Footer.css');margin-left: 0;margin-right: auto;" class="TableStyle-MasterPage_Footer" cellspacing="0">
+                                            <col class="Column-Column1" />
+                                            <col class="Column-Column2" style="width: 50%;" />
+                                            <tbody>
+                                                <tr class="Body-Body1">
+                                                    <td class="BodyD-Column1-Body1" style="vertical-align: top;padding-left: 1px;padding-right: 0px;padding-top: 0px;padding-bottom: 0px;border-right-style: none;border-right-width: 1px;" colspan="2">
+                                                        <p class="ExcludeFromLive">For the most up-to-date version of Help, visit the <a href="http://help.aerotech.com/automation1" target="_blank" class="bold"><span class="mc-variable _GLO-Controller-Software._GLO-HyperWire-PC-Multi-Axis variable">Automation1</span> online Help</a> site.</p>
+                                                        <p class="breadcrumbs">Automation1 Help version <span class="mc-variable _GEN-BuildNumber._GEN-BuildNumber variable">470</span></p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="Body-Body1">
+                                                    <td class="BodyE-Column1-Body1" style="vertical-align: top;padding-left: 1px;padding-right: 0px;padding-top: 0px;padding-bottom: 0px;border-right-style: none;border-right-width: 1px;">&#160;</td>
+                                                    <td class="BodyD-Column2-Body1">&#160;</td>
+                                                </tr>
+                                                <tr class="Body-Body1">
+                                                    <td class="BodyB-Column1-Body1" style="vertical-align: top;padding-left: 1px;padding-right: 0px;padding-top: 0px;padding-bottom: 0px;border-right-style: none;border-right-width: 1px;">
+                                                        <p><a href="https://www.aerotech.com/global-tech-support/" target="_blank">Global Technical Support</a> </p>
+                                                        <p>Copyright © 1994 - <span class="mc-variable _GLO-Company-HQ-Info._GLO-Current-Year variable">2024</span>&#160;&#160;AEROTECH&#160;US. ALL RIGHTS RESERVED.</p>
+                                                    </td>
+                                                    <td class="BodyA-Column2-Body1" style="text-align: right;">
+                                                        <p style="padding-right: 251px;font-weight: bold;text-align: left;">Connect with <a href="https://www.aerotech.com/" target="_blank" title="Aerotech.com"><span class="mc-variable _GLO-Company-HQ-Info._GLO-Corp-Name variable">Aerotech, Inc.</span></a></p>
+                                                        <p style="text-align: left;"><a href="https://www.facebook.com/aerotechmotion" target="_blank"><img src="../Resources/Images/Logos/_GLO-Facebook.png" title="Facebook" class="icon" /></a>&#160;&#160;<a href="https://twitter.com/aerotechmotion" target="_blank"><img src="../Resources/Images/Logos/_GLO-Twitter.png" title="Twitter" class="icon" /></a>&#160;&#160;<a href="https://www.linkedin.com/company/aerotech-inc-" target="_blank"><img src="../Resources/Images/Logos/_GLO-LinkedIn.png" title="LinkedIn" class="icon" /></a>&#160;&#160;<a href="https://www.youtube.com/user/aerotechmotion" target="_blank"><img src="../Resources/Images/Logos/_GLO-YouTube.png" title="YouTube" class="icon" /></a>&#160;&#160;</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p>
+                                        <script type="text/javascript" src="../Resources/Scripts/showorhidelivehelp.js">
+                                        </script>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><a data-close="true"></a>
+                </div>
+            </div>
+        </div>
+    </body>
+
+<!-- Mirrored from help.aerotech.com/automation1/Content/Guide-AeroScript-Programming-Language-Reference/Appendix-B-Axis-Naming-Conventions.htm by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 28 Aug 2024 09:49:06 GMT -->
+</html>
