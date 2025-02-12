@@ -605,6 +605,10 @@ std::string GCodeWriter::set_fan(unsigned int speed) const
 }
 
 void GCodeFormatter::emit_axis(const char axis, const double v, size_t digits) {
+    // For Aerotech, we need 6 decimal places for 5nm resolution
+    if (this->config.gcode_flavor == gcfAerotech) {
+        digits = 6;  // Force 6 decimal places for 5nm resolution
+    }
     assert(digits <= 9);
     static constexpr const std::array<int, 10> pow_10{1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000};
     *ptr_err.ptr++ = ' '; *ptr_err.ptr++ = axis;
