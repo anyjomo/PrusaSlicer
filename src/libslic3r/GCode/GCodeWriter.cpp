@@ -197,8 +197,6 @@ std::string GCodeWriter::set_bed_temperature(unsigned int temperature, bool wait
     return gcode.str();
 }
 
-
-
 std::string GCodeWriter::set_chamber_temperature(unsigned int temperature, bool wait, bool accurate) const
 {
     std::string_view code, comment;
@@ -215,8 +213,6 @@ std::string GCodeWriter::set_chamber_temperature(unsigned int temperature, bool 
     
     return gcode.str();
 }
-
-
 
 std::string GCodeWriter::set_acceleration_internal(Acceleration type, unsigned int acceleration)
 {
@@ -487,39 +483,46 @@ std::string GCodeWriter::retract_for_toolchange(bool before_wipe)
 
 std::string GCodeWriter::_retract(double length, double restart_extra, const std::string_view comment)
 {
-    assert(std::abs(length) < 1000.0);
-    assert(std::abs(restart_extra) < 1000.0);
-
-    /*  If firmware retraction is enabled, we use a fake value of 1
-        since we ignore the actual configured retract_length which 
-        might be 0, in which case the retraction logic gets skipped. */
-    if (this->config.use_firmware_retraction)
-        length = 1;
-    
-    // If we use volumetric E values we turn lengths into volumes */
-    if (this->config.use_volumetric_e) {
-        double d = m_extruder->filament_diameter();
-        double area = d * d * PI/4;
-        length = length * area;
-        restart_extra = restart_extra * area;
-    }
-    
     std::string gcode;
-    if (auto [dE, emitE] = m_extruder->retract(length, restart_extra);  dE != 0) {
-        if (this->config.use_firmware_retraction) {
-            gcode = FLAVOR_IS(gcfMachinekit) ? "G22 ; retract\n" : "G10 ; retract\n";
-        } else if (! m_extrusion_axis.empty()) {
-            GCodeG1Formatter w;
-            w.emit_e(m_extrusion_axis, emitE);
-            w.emit_f(m_extruder->retract_speed() * 60.);
-            w.emit_comment(this->config.gcode_comments, comment);
-            gcode = w.string();
+    
+    if (FLAVOR_IS(gcfAerotech)) {
+        gcode = "M65 // close shutter\n";
+    } else {
+        assert(std::abs(length) < 1000.0);
+        assert(std::abs(restart_extra) < 1000.0);
+
+        /*  If firmware retraction is enabled, we use a fake value of 1
+            since we ignore the actual configured retract_length which 
+            might be 0, in which case the retraction logic gets skipped. */
+        if (this->config.use_firmware_retraction)
+            length = 1;
+        
+        // If we use volumetric E values we turn lengths into volumes */
+        if (this->config.use_volumetric_e) {
+            double d = m_extruder->filament_diameter();
+            double area = d * d * PI/4;
+            length = length * area;
+            restart_extra = restart_extra * area;
         }
+        
+    std::string gcode;
+    
+        if (auto [dE, emitE] = m_extruder->retract(length, restart_extra);  dE != 0) {
+            if (this->config.use_firmware_retraction) {
+                gcode = FLAVOR_IS(gcfMachinekit) ? "G22 ; retract\n" : "G10 ; retract\n";
+            } else if (! m_extrusion_axis.empty()) {
+                GCodeG1Formatter w;
+                w.emit_e(m_extrusion_axis, emitE);
+                w.emit_f(m_extruder->retract_speed() * 60.);
+                w.emit_comment(this->config.gcode_comments, comment);
+                gcode = w.string();
+            }
+        }
+        
+        if (FLAVOR_IS(gcfMakerWare))
+            gcode += "M103 ; extruder off\n";
     }
     
-    if (FLAVOR_IS(gcfMakerWare))
-        gcode += "M103 ; extruder off\n";
-
     return gcode;
 }
 
@@ -527,20 +530,24 @@ std::string GCodeWriter::unretract()
 {
     std::string gcode;
     
-    if (FLAVOR_IS(gcfMakerWare))
-        gcode = "M101 ; extruder on\n";
-    
-    if (auto [dE, emitE] = m_extruder->unretract(); dE != 0) {
-        if (this->config.use_firmware_retraction) {
-            gcode += FLAVOR_IS(gcfMachinekit) ? "G23 ; unretract\n" : "G11 ; unretract\n";
-            gcode += this->reset_e();
-        } else if (! m_extrusion_axis.empty()) {
-            // use G1 instead of G0 because G0 will blend the restart with the previous travel move
-            GCodeG1Formatter w;
-            w.emit_e(m_extrusion_axis, emitE);
-            w.emit_f(m_extruder->deretract_speed() * 60.);
-            w.emit_comment(this->config.gcode_comments, " ; unretract");
-            gcode += w.string();
+    if (FLAVOR_IS(gcfAerotech)) {
+        gcode = "M64 // open shutter\n";
+    } else {
+        if (FLAVOR_IS(gcfMakerWare))
+            gcode = "M101 ; extruder on\n";
+        
+        if (auto [dE, emitE] = m_extruder->unretract(); dE != 0) {
+            if (this->config.use_firmware_retraction) {
+                gcode += FLAVOR_IS(gcfMachinekit) ? "G23 ; unretract\n" : "G11 ; unretract\n";
+                gcode += this->reset_e();
+            } else if (! m_extrusion_axis.empty()) {
+                // use G1 instead of G0 because G0 will blend the restart with the previous travel move
+                GCodeG1Formatter w;
+                w.emit_e(m_extrusion_axis, emitE);
+                w.emit_f(m_extruder->deretract_speed() * 60.);
+                w.emit_comment(this->config.gcode_comments, " ; unretract");
+                gcode += w.string();
+            }
         }
     }
     

@@ -43,10 +43,9 @@ Location: `src/libslic3r/PrintConfig.hpp`
 ```cpp
 enum GCodeFlavor : unsigned char {
     gcfRepRapSprinter, gcfRepRapFirmware, gcfRepetier, gcfTeacup, gcfMakerWare, gcfMarlinLegacy, gcfMarlinFirmware, gcfKlipper, gcfSailfish, gcfMach3, gcfMachinekit,
-    gcfSmoothie, gcfNoExtrusion,
+    gcfSmoothie, gcfNoExtrusion, gcfAerotech
 };
 ```
-gcfAerotech
 
 ### 2. GCodeWriter Class
 Location: `src/libslic3r/GCode/GCodeWriter.hpp`
@@ -142,6 +141,23 @@ Updated derived formatter classes:
 Modified GCodeG1Formatter constructor to pass config
 Modified GCodeG2G3Formatter constructor to pass config
 
+#### handle the M64 and M65 commands - implemented in GCodeWritter.hpp [x]
+Purpose: To ensure proper laser control commands in G-code output based on the G-code flavor being used. Different CNC controllers use different commands:
+Aerotech uses M64 (laser on) and M65 (laser off)
+Other flavors use 10 (disable extruder) and 11 (enable extruder)
+Changes Made:
+Modified the GCodeWriter class:
+Added m_config member to access G-code flavor settings
+Updated constructor to accept GCodeConfig reference
+Modified the GCodeFormatter class:
+Added m_config member to access G-code flavor settings
+Updated constructor to accept GCodeConfig reference
+Modified the GCodeG1Formatter class:
+Added m_config member to access G-code flavor settings
+Updated constructor to accept GCodeConfig reference
+Modified the GCodeG2G3Formatter class:
+Added m_config member to access G-code flavor settings
+Updated constructor to accept GCodeConfig reference
 
 ### 3. GCodeProcessor Class
 Location: `src/libslic3r/GCode/GCodeProcessor.hpp`
@@ -154,7 +170,7 @@ Handles G-code parsing and processing.
 // In PrintConfig.hpp
 enum GCodeFlavor : unsigned char {
     // ... existing flavors ...
-    gcfNewFlavor,
+    gcfAerotech,
 };
 ```
 
@@ -239,7 +255,7 @@ Here's a minimal example of implementing a new flavor:
 // In GCodeWriter.cpp
 
 std::string GCodeWriter::set_temperature(unsigned int temperature, bool wait) {
-    if (FLAVOR_IS(gcfNewFlavor)) {
+    if (FLAVOR_IS(gcfAerotech)) {
         // Implement flavor-specific temperature command
         std::ostringstream gcode;
         gcode << "M104 P" << temperature;
@@ -256,3 +272,39 @@ std::string GCodeWriter::set_temperature(unsigned int temperature, bool wait) {
 - GCodeWriter Documentation
 - Machine-specific G-code documentation
 - Existing flavor implementations (Marlin, RepRap, etc.)
+
+## GCodeWriter.cpp Function Reference
+
+| Function Name                         | Description                                                        | Aerotech Implementation                                                                                                                                                                |
+|---------------------------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| supports_separate_travel_acceleration | Static function to check if a G-code flavor supports travel accel  | No specific changes                                                                                                                                                                    |
+| apply_print_config                    | Applies print configuration settings to the writer                 | No specific changes                                                                                                                                                                    |
+| set_extruders                         | Configures the extruders to be used                                | No specific changes                                                                                                                                                                    |
+| preamble                              | Generates G-code preamble (start of file commands)                 | Added:<br>• M65 (close shutter)<br>• G71 (metric)<br>• G76 (time in seconds)<br>• G94 (units/sec)<br>• G90 (absolute)<br>• G69 (S-curve accel)<br>• G109 (disable velocity blending)<br>• G16 X Y Z (set axes)<br>• G17 (XY plane) |
+| postamble                             | Generates G-code postamble (end of file commands)                  | Added:<br>• M65 (close shutter)<br>• G1 Z15 F1000 (safe Z)<br>• M2 (program end)                                                                                                      |
+| set_temperature                       | Sets extruder temperature with optional wait                       | Disabled for Aerotech (laser system)                                                                                                                                                   |
+| set_bed_temperature                   | Sets bed temperature with optional wait                            | No specific changes                                                                                                                                                                    |
+| set_chamber_temperature               | Sets chamber temperature with optional wait                        | No specific changes                                                                                                                                                                    |
+| set_acceleration_internal             | Sets acceleration for different movement types                     | No specific changes                                                                                                                                                                    |
+| reset_e                               | Resets the extruder position                                       | No specific changes                                                                                                                                                                    |
+| update_progress                       | Updates print progress information                                 | No specific changes                                                                                                                                                                    |
+| toolchange_prefix                     | Generates prefix for tool change commands                          | No specific changes                                                                                                                                                                    |
+| toolchange                            | Generates tool change commands                                     | No specific changes                                                                                                                                                                    |
+| set_speed                             | Sets movement speed                                                | No specific changes                                                                                                                                                                    |
+| get_travel_to_xy_gcode                | Generates G-code for XY travel moves                               | No specific changes                                                                                                                                                                    |
+| travel_to_xy                          | Executes XY travel moves                                           | No specific changes                                                                                                                                                                    |
+| travel_to_xy_G2G3IJ                   | Executes circular XY travel moves                                  | No specific changes                                                                                                                                                                    |
+| travel_to_xyz                         | Executes XYZ travel moves                                          | No specific changes                                                                                                                                                                    |
+| get_travel_to_xyz_gcode               | Generates G-code for XYZ travel moves                              | No specific changes                                                                                                                                                                    |
+| travel_to_z                           | Executes Z travel moves                                            | No specific changes                                                                                                                                                                    |
+| get_travel_to_z_gcode                 | Generates G-code for Z travel moves                                | No specific changes                                                                                                                                                                    |
+| extrude_to_xy                         | Executes XY moves with extrusion                                   | Modified to skip extrusion axis for Aerotech                                                                                                                                           |
+| extrude_to_xyz                        | Executes XYZ moves with extrusion                                  | Modified to skip extrusion axis for Aerotech                                                                                                                                           |
+| extrude_to_xy_G2G3IJ                  | Executes circular XY moves with extrusion                          | Modified to skip extrusion axis for Aerotech                                                                                                                                           |
+| retract                               | Executes filament retraction                                       | Uses M65 (close shutter) for Aerotech                                                                                                                                                  |
+| retract_for_toolchange                | Executes filament retraction for tool changes                      | Uses M65 (close shutter) for Aerotech                                                                                                                                                  |
+| _retract                              | Internal retraction implementation                                 | Modified to output M65 (close shutter) for Aerotech                                                                                                                                    |
+| unretract                             | Executes filament unretraction                                     | Modified to output M64 (open shutter) for Aerotech                                                                                                                                     |
+| update_position                       | Updates current position                                           | No specific changes                                                                                                                                                                    |
+| set_fan                               | Sets fan speed                                                     | No specific changes                                                                                                                                                                    |
+| emit_axis                             | Formats and emits axis movements                                   | No specific changes                                                                                                                                                                    |

@@ -305,8 +305,8 @@ To use Aerotech G-code flavor in Slic3r:
 | M49       | Enables the use of manual feedrate override (MFO) controls. |
 | M50       | Disables the use of manual spindle override (MSO) controls. |
 | M51       | Enables the use of manual spindle override (MSO) controls. |
-| M64       | Laser on                          |
-| M65       | Laser off                         |
+| M64       | Laser on  (open shutter)                        |
+| M65       | Laser off (close shutter)                         |
 | M103      | Starts motion on the spindle axis that is configured for the task in the clockwise direction. The command does not wait for the spindle to accelerate to the commanded speed. |
 | M104      | Starts motion on the spindle axis that is configured for the task in the counterclockwise direction. The command does not wait for the spindle to accelerate to the commanded speed. |
 
