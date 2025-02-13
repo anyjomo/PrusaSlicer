@@ -148,11 +148,11 @@ private:
 
 class GCodeFormatter {
 public:
-    GCodeFormatter(const GCodeConfig& config) : m_config(config) {
+    GCodeFormatter() = delete;  // Explicitly delete default constructor
+    explicit GCodeFormatter(const GCodeConfig& config) : config(config) {
         this->buf_end = buf + buflen;
         this->ptr_err.ptr = this->buf;
     }
-
     GCodeFormatter(const GCodeFormatter&) = delete;
     GCodeFormatter& operator=(const GCodeFormatter&) = delete;
 
@@ -235,7 +235,7 @@ public:
     void emit_comment(bool allow_comments, const std::string_view comment) {
         if (allow_comments && ! comment.empty()) {
             *ptr_err.ptr++ = ' ';
-            if (m_config.gcode_flavor == gcfAerotech) {
+            if (config.gcode_flavor == gcfAerotech) {
                 *ptr_err.ptr++ = '/';
                 *ptr_err.ptr++ = '/';
             } else {
@@ -256,29 +256,30 @@ protected:
     char                            buf[buflen];
     char* buf_end;
     std::to_chars_result            ptr_err;
-    const GCodeConfig&             m_config;
+    const GCodeConfig&              config;
+
 };
 
 class GCodeG1Formatter : public GCodeFormatter {
 public:
+    GCodeG1Formatter() = delete;  // Explicitly delete default constructor
     GCodeG1Formatter(const GCodeConfig& config) : GCodeFormatter(config) {
         this->buf[0] = 'G';
         this->buf[1] = '1';
         this->ptr_err.ptr += 2;
     }
-
     GCodeG1Formatter(const GCodeG1Formatter&) = delete;
     GCodeG1Formatter& operator=(const GCodeG1Formatter&) = delete;
 };
 
 class GCodeG2G3Formatter : public GCodeFormatter {
 public:
+    GCodeG2G3Formatter() = delete;  // Explicitly delete default constructor
     GCodeG2G3Formatter(bool ccw, const GCodeConfig& config) : GCodeFormatter(config) {
         this->buf[0] = 'G';
         this->buf[1] = ccw ? '3' : '2';
         this->ptr_err.ptr += 2;
     }
-
     GCodeG2G3Formatter(const GCodeG2G3Formatter&) = delete;
     GCodeG2G3Formatter& operator=(const GCodeG2G3Formatter&) = delete;
 };

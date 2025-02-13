@@ -46,8 +46,14 @@ static constexpr double max_ignored_gap_between_extruding_segments = 3.;
 // of feedrate and reduce the size of the G-code.
 static constexpr float min_emitted_feedrate_change = 0.20f * 60.f;
 
-PressureEqualizer::PressureEqualizer(const Slic3r::GCodeConfig &config) : m_use_relative_e_distances(config.use_relative_e_distances.value)
+PressureEqualizer::PressureEqualizer(const Slic3r::GCodeConfig &config) : 
+    m_config(config),  
+    m_use_relative_e_distances(config.use_relative_e_distances.value)
 {
+    // Skip initialization for Aerotech since pressure equalization is not needed
+    if (config.gcode_flavor == gcfAerotech)
+        return;
+
     // Preallocate some data, so that output_buffer.data() will return an empty string.
     output_buffer.assign(32, 0);
     output_buffer_length      = 0;
@@ -187,6 +193,10 @@ PressureEqualizer::GCodeLinesConstIt PressureEqualizer::advance_segment_beyond_s
 
 LayerResult PressureEqualizer::process_layer(LayerResult &&input)
 {
+    // Skip pressure equalization for Aerotech
+    if (m_config.gcode_flavor == gcfAerotech)
+        return std::move(input);
+
     const bool   is_first_layer       = m_layer_results.empty();
     const size_t next_layer_first_idx = m_gcode_lines.size();
 

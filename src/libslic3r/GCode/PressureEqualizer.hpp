@@ -91,6 +91,7 @@ private:
     size_t                          m_current_extruder;
     GCodeExtrusionRole     m_current_extrusion_role;
     bool                            m_retracted;
+    const GCodeConfig&              m_config;  // Store config to check gcode_flavor
     bool                            m_use_relative_e_distances;
 
     // Indicate if extrude set speed block was opened using the tag ";_EXTRUDE_SET_SPEED"

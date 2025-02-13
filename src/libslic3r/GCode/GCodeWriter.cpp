@@ -70,15 +70,15 @@ std::string GCodeWriter::preamble()
 {
     std::ostringstream gcode;
     if (FLAVOR_IS(gcfAerotech)) {
-        gcode << "M65 // close Shutter\n"
-              << "G71 // Metric units (millimeters)\n"
-              << "G76 // Time in seconds\n"
-              << "G94 // Units per second mode\n"
-              << "G90 // Absolute coordinates\n"
-              << "G69 // operate with the S-curve acceleration and deceleration ramping type for coordinated motion\n" 
-              << "G109 // Disable velocity blending\n";
-              << "G16 X Y Z // Set axes X Y Z\n";
-              << "G17 // Select XY plane for circular interpolation\n";
+        gcode << "M65 // close Shutter\n";
+        gcode << "G71 // Metric units (millimeters)\n";
+        gcode << "G76 // Time in seconds\n";
+        gcode << "G94 // Units per second mode\n";
+        gcode << "G90 // Absolute coordinates\n";
+        gcode << "G69 // operate with the S-curve acceleration and deceleration ramping type for coordinated motion\n"; 
+        gcode << "G109 // Disable velocity blending\n";
+        gcode << "G16 X Y Z // Set axes X Y Z\n";
+        gcode << "G17 // Select XY plane for circular interpolation\n";
     return gcode.str();
     }
     if (FLAVOR_IS_NOT(gcfMakerWare)) {
@@ -110,12 +110,12 @@ std::string GCodeWriter::postamble() const
     std::ostringstream gcode;
     if (FLAVOR_IS(gcfAerotech)) {
         gcode << "M65 // close Shutter\n";
-              << "G1 Z15.000000 F1000.000000 // Safe Z height\n";
-              << "M2 // Program end\n";
+        gcode << "G1 Z15.000000 F1000.000000 // Safe Z height\n";
+        gcode << "M2 // Program end\n";
     return gcode.str();
     }
     if (FLAVOR_IS(gcfMachinekit))
-          gcode << "M2 ; end of program\n";
+         gcode << "M2 ; end of program\n";
     return gcode.str();
 }
 
@@ -301,7 +301,7 @@ std::string GCodeWriter::set_speed(double F, const std::string_view comment, con
     assert(F > 0.);
     assert(F < 100000.);
 
-    GCodeG1Formatter w;
+    GCodeG1Formatter w(this->config);  // Pass config to constructor
     w.emit_f(F);
     w.emit_comment(this->config.gcode_comments, comment);
     w.emit_string(cooling_marker);
@@ -310,7 +310,7 @@ std::string GCodeWriter::set_speed(double F, const std::string_view comment, con
 
 std::string GCodeWriter::get_travel_to_xy_gcode(const Vec2d &point, const std::string_view comment) const
 {
-    GCodeG1Formatter w;
+    GCodeG1Formatter w(this->config);  // Pass config to constructor
     w.emit_xy(point);
     w.emit_f(this->config.travel_speed.value * 60.0);
     w.emit_comment(this->config.gcode_comments, comment);
@@ -333,7 +333,7 @@ std::string GCodeWriter::travel_to_xy_G2G3IJ(const Vec2d &point, const Vec2d &ij
  
     m_pos.head<2>() = point.head<2>();
 
-    GCodeG2G3Formatter w(ccw);
+    GCodeG2G3Formatter w(ccw, this->config);  // Pass config to constructor
     w.emit_xy(point);
     w.emit_ij(ij);
     w.emit_comment(this->config.gcode_comments, comment);
@@ -354,7 +354,7 @@ std::string GCodeWriter::travel_to_xyz(const Vec3d &to, const std::string_view c
 }
 
 std::string GCodeWriter::get_travel_to_xyz_gcode(const Vec3d &to, const std::string_view comment) const {
-    GCodeG1Formatter w;
+    GCodeG1Formatter w(this->config);  // Pass config to constructor
     w.emit_xyz(to);
 
     double speed_z = this->config.travel_speed_z.value;
@@ -392,7 +392,7 @@ std::string GCodeWriter::get_travel_to_z_gcode(double z, const std::string_view 
     if (speed == 0.)
         speed = this->config.travel_speed.value;
 
-    GCodeG1Formatter w;
+    GCodeG1Formatter w(this->config);  // Pass config to constructor
     w.emit_z(z);
     w.emit_f(speed * 60.0);
     w.emit_comment(this->config.gcode_comments, comment);
@@ -406,7 +406,7 @@ std::string GCodeWriter::extrude_to_xy(const Vec2d &point, double dE, const std:
 
     m_pos.head<2>() = point.head<2>();
 
-    GCodeG1Formatter w;
+    GCodeG1Formatter w(this->config);  // Pass config to constructor
     w.emit_xy(point);
     w.emit_e(m_extrusion_axis, m_extruder->extrude(dE).second);
     w.emit_comment(this->config.gcode_comments, comment);
@@ -417,7 +417,7 @@ std::string GCodeWriter::extrude_to_xyz(const Vec3d &point, double dE, const std
 {
     m_pos = point;
 
-    GCodeG1Formatter w;
+    GCodeG1Formatter w(this->config);  // Pass config to constructor
     w.emit_xyz(point);
     w.emit_e(m_extrusion_axis, m_extruder->extrude(dE).second);
     w.emit_comment(this->config.gcode_comments, comment);
@@ -436,7 +436,7 @@ std::string GCodeWriter::extrude_to_xy_G2G3IJ(const Vec2d &point, const Vec2d &i
 
     m_pos.head<2>() = point.head<2>();
 
-    GCodeG2G3Formatter w(ccw);
+    GCodeG2G3Formatter w(ccw, this->config);  // Pass config to constructor
     w.emit_xy(point);
     w.emit_ij(ij);
     w.emit_e(m_extrusion_axis, m_extruder->extrude(dE).second);
@@ -451,7 +451,7 @@ std::string GCodeWriter::extrude_to_xyz(const Vec3d &point, double dE, const std
     m_lifted = 0;
     m_extruder->extrude(dE);
     
-    GCodeG1Formatter w;
+    GCodeG1Formatter w(this->config);  // Pass config to constructor
     w.emit_xyz(point);
     w.emit_e(m_extrusion_axis, m_extruder->E());
     w.emit_comment(this->config.gcode_comments, comment);
@@ -511,7 +511,7 @@ std::string GCodeWriter::_retract(double length, double restart_extra, const std
             if (this->config.use_firmware_retraction) {
                 gcode = FLAVOR_IS(gcfMachinekit) ? "G22 ; retract\n" : "G10 ; retract\n";
             } else if (! m_extrusion_axis.empty()) {
-                GCodeG1Formatter w;
+                GCodeG1Formatter w(this->config);  // Pass config to constructor
                 w.emit_e(m_extrusion_axis, emitE);
                 w.emit_f(m_extruder->retract_speed() * 60.);
                 w.emit_comment(this->config.gcode_comments, comment);
@@ -542,7 +542,7 @@ std::string GCodeWriter::unretract()
                 gcode += this->reset_e();
             } else if (! m_extrusion_axis.empty()) {
                 // use G1 instead of G0 because G0 will blend the restart with the previous travel move
-                GCodeG1Formatter w;
+                GCodeG1Formatter w(this->config);  // Pass config to constructor
                 w.emit_e(m_extrusion_axis, emitE);
                 w.emit_f(m_extruder->deretract_speed() * 60.);
                 w.emit_comment(this->config.gcode_comments, " ; unretract");
