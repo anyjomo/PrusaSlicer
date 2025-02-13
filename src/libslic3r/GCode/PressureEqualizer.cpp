@@ -431,8 +431,8 @@ bool PressureEqualizer::process_line(const char *line, const char *line_end, GCo
                 default:
                     break;
                 }
-                eatws(line);
-            }
+                    eatws(line);
+                }
             break;
         }
         case 10:
@@ -828,14 +828,14 @@ void PressureEqualizer::push_line_to_output(const size_t line_idx, float new_fee
     } else
         push_to_output(EXTRUDE_END_TAG.data(), EXTRUDE_END_TAG.length(), true);
 
-    GCodeG1Formatter feedrate_formatter;
+    GCodeG1Formatter feedrate_formatter(m_config);
     feedrate_formatter.emit_f(new_feedrate);
     feedrate_formatter.emit_string(std::string(EXTRUDE_SET_SPEED_TAG.data(), EXTRUDE_SET_SPEED_TAG.length()));
     if (line.extrusion_role == GCodeExtrusionRole::ExternalPerimeter)
         feedrate_formatter.emit_string(std::string(EXTERNAL_PERIMETER_TAG.data(), EXTERNAL_PERIMETER_TAG.length()));
     push_to_output(feedrate_formatter);
 
-    GCodeG1Formatter extrusion_formatter;
+    GCodeG1Formatter extrusion_formatter(m_config);
     for (size_t axis_idx = 0; axis_idx < 3; ++axis_idx)
         if (line.pos_provided[axis_idx])
             extrusion_formatter.emit_axis(char('X' + axis_idx), line.pos_end[axis_idx], GCodeFormatter::XYZF_EXPORT_DIGITS);
